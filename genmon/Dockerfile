@@ -11,9 +11,6 @@ RUN mkdir -p /app
 RUN curl -L --no-progress-meter https://github.com/jgyates/genmon/archive/refs/tags/V1.19.02.tar.gz | tar xz -C /app && mv /app/genmon* /app/genmon
 RUN chmod 775 /app/genmon/startgenmon.sh && chmod 775 /app/genmon/genmonmaint.sh
 
-# Link configs to data
-RUN mkdir -p /data/genmon && ln -s /data/genmon /etc/genmon
-
 # Update the genmon.conf file to use the TCP serial for ESP32 devices
 RUN sed -i 's/use_serial_tcp = False/use_serial_tcp = True/g' /app/genmon/conf/genmon.conf
 RUN sed -i 's/serial_tcp_port = 8899/serial_tcp_port = 6638/g' /app/genmon/conf/genmon.conf
@@ -39,7 +36,6 @@ RUN chmod +x /app/run.sh
 RUN apt-get purge -y git build-essential libssl-dev libffi-dev python3-dev cargo && apt autoremove && apt clean ; \
   rm -rf /var/lib/apt/lists/* /var/cache/apt/archives/*
 
-# VOLUME /etc/genmon
 
 EXPOSE 22
 EXPOSE 443
