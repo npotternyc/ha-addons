@@ -11,6 +11,9 @@ RUN mkdir -p /app
 RUN curl -L --no-progress-meter https://github.com/jgyates/genmon/archive/refs/tags/V1.19.02.tar.gz | tar xz -C /app && mv /app/genmon* /app/genmon
 RUN chmod 775 /app/genmon/startgenmon.sh && chmod 775 /app/genmon/genmonmaint.sh
 
+# Update the genmon.conf file to write logs to persistent storage
+RUN sed -i 's|loglocation = /var/log/|loglocation = /data/genmon/log|g' /app/genmon/conf/genmon.conf
+
 # Update the genmon.conf file to use the TCP serial for ESP32 devices
 RUN sed -i 's/use_serial_tcp = False/use_serial_tcp = True/g' /app/genmon/conf/genmon.conf
 RUN sed -i 's/serial_tcp_port = 8899/serial_tcp_port = 6638/g' /app/genmon/conf/genmon.conf
