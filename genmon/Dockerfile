@@ -8,7 +8,7 @@ RUN apt -y install python3.11 python3.11-venv
 
 # Download genmon code
 RUN mkdir -p /app
-RUN curl -L --no-progress-meter https://github.com/jgyates/genmon/archive/refs/tags/V1.19.02.tar.gz | tar xz -C /app && mv /app/genmon* /app/genmon
+RUN curl -L --no-progress-meter https://github.com/jgyates/genmon/archive/refs/tags/V1.19.07.tar.gz | tar xz -C /app && mv /app/genmon* /app/genmon
 RUN chmod 775 /app/genmon/startgenmon.sh && chmod 775 /app/genmon/genmonmaint.sh
 
 # Update the genmon.conf file to write logs to persistent storage
@@ -45,6 +45,7 @@ EXPOSE 443
 EXPOSE 8000
 
 CMD ["/app/run.sh"]
+
 
 # annotation labels according to
 # https://github.com/opencontainers/image-spec/blob/v1.0.1/annotations.md#pre-defined-annotation-keys
