@@ -2,6 +2,7 @@ name: "Genmon"
 description: "Genmon generator monitoring app"
 version: "0.1.1"
 slug: "genmon"
+panel_icon: "mdi:generator-stationary"
 init: false
 arch:
   - armhf

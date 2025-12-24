@@ -6,10 +6,14 @@ RUN apk add --no-cache \
     powertop \
     bash \
     curl \
+    kmod \
+    cpufrequtils \
     python3 \
     py3-pip \
-    py3-flask \
-    && rm -rf /var/cache/apk/*
+    && rm -rf /var/lib/apt/lists/*
+
+# Install Flask via pip
+RUN pip3 install --no-cache-dir --break-system-packages flask
 
 # Create working directories
 RUN mkdir -p /data/reports /app
