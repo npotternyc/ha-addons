@@ -2,20 +2,34 @@
 
 All notable changes to this addon will be documented in this file.
 
+## [0.1.2] - 2026-03-01
+
+### Changed
+
+- Updated Genmon to version 1.19.08
+- Improved README with installation instructions, configuration table, and automated build documentation
+
+### Added
+
+- GitHub Actions CI: multi-arch Docker builds (aarch64, amd64, armv7) pushed to GitHub Container Registry
+- Automated daily update checks for new Genmon releases and base image changes
+
 ## [0.1.1] - 2025-11-29
 
 ### Changed
+
 - Updated Genmon to version 1.19.07 (latest release as of November 2025)
 - Updated from previous Genmon version 1.19.02
 
 ### Added
-- Added comprehensive documentation (DOCS.md)
+
 - Added README.md with quick start guide
-- Added this CHANGELOG.md
+- Genmon Logos
 
 ## [0.1.0] - Initial Release
 
 ### Added
+
 - Initial Home Assistant addon release
 - Genmon 1.19.02 integration
 - Web interface via Ingress (port 8000)
@@ -27,6 +41,7 @@ All notable changes to this addon will be documented in this file.
 - Python 3.11 runtime environment
 
 ### Configuration Defaults
+
 - Serial TCP mode enabled by default
 - MQTT JSON format enabled for Home Assistant
 - MQTT flush interval set to 60 seconds
@@ -34,6 +49,7 @@ All notable changes to this addon will be documented in this file.
 - Filtered MQTT topics to reduce noise
 
 ### Supported Architectures
+
 - armhf
 - armv7
 - aarch64
