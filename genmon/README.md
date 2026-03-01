@@ -2,9 +2,20 @@
 
 Monitor your backup generator with Home Assistant using this Genmon addon.
 
+## Adding to Home Assistant
+
+1. Navigate to **Settings → Add-ons → Add-on Store**
+2. Click the **⋮ menu** (top right) and select **Repositories**
+3. Add the following URL and click **Add**:
+   ```
+   https://github.com/npotternyc/ha-addons
+   ```
+4. Refresh the page — the **Genmon** addon will appear in the store
+5. Click **Install**
+
 ## About
 
-This addon packages [Genmon](https://github.com/jgyates/genmon) for easy installation in Home Assistant. Genmon is a comprehensive monitoring solution for backup generators. I have tested this with the Generac Evolution V2. It should work with all the genmon supported generators, but you need to have a working Serial-to-WiFi bridge.
+This addon packages [Genmon](https://github.com/jgyates/genmon) for easy installation in Home Assistant. Genmon is a comprehensive monitoring solution for backup generators. Tested with the Generac Evolution V2 — should work with all Genmon-supported generators, but requires a working Serial-to-WiFi bridge.
 
 ## Requirements
 
@@ -17,7 +28,7 @@ This addon packages [Genmon](https://github.com/jgyates/genmon) for easy install
 
 1. Install the addon from the Home Assistant addon store
 2. Start the addon
-3. Click "Open Web UI" to access the Genmon interface
+3. Click **Open Web UI** to access the Genmon interface
 4. Follow the setup wizard to configure your generator
 5. Enable MQTT integration for Home Assistant automation
 
@@ -25,29 +36,41 @@ This addon packages [Genmon](https://github.com/jgyates/genmon) for easy install
 
 The addon comes pre-configured for common setups:
 
-- **Serial TCP Mode**: Enabled (for ESP32/WiFi serial bridges)
-- **TCP Port**: 6638
-- **Logs**: Stored in `/data/genmon/log/`
-- **MQTT**: Auto-discovery enabled
-- **Web Interface**: Available via Ingress (port 8000)
+| Setting | Value |
+|---------|-------|
+| Serial TCP Mode | Enabled (for ESP32/WiFi serial bridges) |
+| TCP Port | 6638 |
+| Logs | `/data/genmon/log/` |
+| MQTT JSON format | Enabled |
+| MQTT flush interval | 60 seconds |
+| Web Interface | Ingress on port 8000 |
+
+## Automated Builds
+
+This addon is automatically rebuilt via GitHub Actions whenever:
+
+- A new **Genmon release** is published on GitHub
+- The **Home Assistant Debian base image** is updated
+
+Builds are produced for `aarch64`, `amd64`, and `armv7` architectures and pushed to the GitHub Container Registry.
 
 ## Version
 
-- **Addon Version**: 0.1.1
-- **Genmon Version**: 1.19.07 (October 2024)
+- **Addon Version**: 0.1.2
+- **Genmon Version**: 1.19.08
 
 ## Support and Resources
 
-- [Detailed Documentation](DOCS.md)
 - [Genmon Official GitHub](https://github.com/jgyates/genmon)
 - [Genmon Wiki](https://github.com/jgyates/genmon/wiki)
-- [Report Issues](../../issues)
+- [Report Issues](https://github.com/npotternyc/ha-addons/issues)
 
 ## License
 
-This addon packaging is released under GPL-2.0 license, matching the Genmon project license.
+This addon packaging is released under the GPL-2.0 license, matching the Genmon project license.
 
 Genmon is developed and maintained by [jgyates](https://github.com/jgyates).
 
 ## Credits
-Docket image derived from image maintained by [m0ngr31](https://github.com/m0ngr31/genmon)
+
+Docker image derived from image maintained by [m0ngr31](https://github.com/m0ngr31/genmon).
