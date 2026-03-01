@@ -1,0 +1,79 @@
+name: Check for upstream updates
+
+on:
+  schedule:
+    - cron: '0 6 * * *'
+  workflow_dispatch:
+
+jobs:
+  check-genmon:
+    runs-on: ubuntu-latest
+    outputs:
+      updated: ${{ steps.update.outputs.updated }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Get latest genmon release
+        id: latest
+        run: |
+          TAG=$(curl -s https://api.github.com/repos/jgyates/genmon/releases/latest \
+            | jq -r .tag_name)
+          echo "tag=$TAG" >> $GITHUB_OUTPUT
+
+      - name: Get current version in Dockerfile
+        id: current
+        run: |
+          TAG=$(grep -oP '(?<=tags/)[^/]+(?=\.tar\.gz)' genmon/Dockerfile)
+          echo "tag=$TAG" >> $GITHUB_OUTPUT
+
+      - name: Update Dockerfile
+        id: update
+        if: steps.latest.outputs.tag != steps.current.outputs.tag
+        run: |
+          sed -i "s/${{ steps.current.outputs.tag }}/${{ steps.latest.outputs.tag }}/g" genmon/Dockerfile
+          echo "updated=true" >> $GITHUB_OUTPUT
+
+      - name: Commit and push
+        if: steps.update.outputs.updated == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git commit -am "Update genmon to ${{ steps.latest.outputs.tag }}"
+          git push
+
+  check-base-image:
+    runs-on: ubuntu-latest
+    outputs:
+      updated: ${{ steps.compare.outputs.updated }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Get current base image digest
+        id: remote
+        run: |
+          DIGEST=$(docker buildx imagetools inspect \
+            ghcr.io/home-assistant/aarch64-base-debian:latest \
+            --format '{{json .Manifest}}' | jq -r .digest)
+          echo "digest=$DIGEST" >> $GITHUB_OUTPUT
+
+      - name: Load stored digest
+        id: stored
+        run: |
+          DIGEST=$(cat .github/base-image-digest.txt 2>/dev/null || echo "")
+          echo "digest=$DIGEST" >> $GITHUB_OUTPUT
+
+      - name: Compare and update
+        id: compare
+        if: steps.remote.outputs.digest != steps.stored.outputs.digest
+        run: |
+          echo "${{ steps.remote.outputs.digest }}" > .github/base-image-digest.txt
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git commit -am "Update base image digest"
+          git push
+          echo "updated=true" >> $GITHUB_OUTPUT
+
+  trigger-build:
+    needs: [check-genmon, check-base-image]
+    if: needs.check-genmon.outputs.updated == 'true' || needs.check-base-image.outputs.updated == 'true'
+    uses: ./.github/workflows/build.yml
