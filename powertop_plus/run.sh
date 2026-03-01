@@ -73,7 +73,7 @@ generate_report() {
     bashio::log.info "Generating PowerTop report: ${report_file}"
     
     # Run PowerTop to generate HTML report
-    if powertop --html="${report_file}" --time=60; then
+    if powertop --quiet --html="${report_file}" --time=60; then
         bashio::log.info "Report generated successfully: ${report_file}"
         
         # Create/update symlink to latest report
@@ -120,8 +120,8 @@ mkdir -p /data/reports
 mount_debugfs
 
 # Run initial calibration on first startup
-bashio::log.info "Performing initial PowerTop calibration for accurate measurements..."
-calibrate_powertop
+# bashio::log.info "Performing initial PowerTop calibration for accurate measurements..."
+# calibrate_powertop
 
 # Initial report generation and auto-tune
 generate_report

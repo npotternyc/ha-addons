@@ -21,11 +21,23 @@ def index():
 @app.route('/report/<filename>')
 def view_report(filename):
     """View a specific PowerTop report"""
+    # Security: prevent directory traversal
+    if '..' in filename or filename.startswith('/'):
+        return "Invalid filename", 400
+
     report_path = os.path.join(REPORTS_DIR, filename)
-    if os.path.exists(report_path) and filename.endswith('.html'):
-        return send_file(report_path)
-    else:
-        return "Report not found", 404
+
+    # Check if file exists and is HTML
+    if not filename.endswith('.html'):
+        return "Invalid file type", 400
+
+    if not os.path.exists(report_path):
+        return f"Report not found: {filename}<br>Looking in: {REPORTS_DIR}<br>File exists: {os.path.exists(report_path)}", 404
+
+    try:
+        return send_file(report_path, mimetype='text/html')
+    except Exception as e:
+        return f"Error serving file: {str(e)}", 500
 
 @app.route('/api/reports')
 def api_reports():
@@ -75,16 +87,23 @@ def get_report_list():
 def get_latest_report():
     """Get information about the latest report"""
     latest_path = os.path.join(REPORTS_DIR, "latest.html")
-    if os.path.exists(latest_path):
-        stat = os.stat(latest_path)
-        return {
-            'exists': True,
-            'filename': 'latest.html',
-            'timestamp': datetime.fromtimestamp(stat.st_mtime).strftime("%Y-%m-%d %H:%M:%S"),
-            'size': stat.st_size
-        }
-    else:
-        return {'exists': False}
+    # Check if symlink exists and resolve it
+    if os.path.islink(latest_path) or os.path.exists(latest_path):
+        try:
+            # Follow symlink to get actual file stats
+            real_path = os.path.realpath(latest_path)
+            if os.path.exists(real_path):
+                stat = os.stat(real_path)
+                return {
+                    'exists': True,
+                    'filename': 'latest.html',
+                    'timestamp': datetime.fromtimestamp(stat.st_mtime).strftime("%Y-%m-%d %H:%M:%S"),
+                    'size': stat.st_size
+                }
+        except Exception as e:
+            print(f"Error reading latest report: {e}")
+
+    return {'exists': False}
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='PowerTop Plus Web Interface')

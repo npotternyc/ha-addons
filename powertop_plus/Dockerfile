@@ -16,7 +16,7 @@ RUN apk add --no-cache \
 RUN pip3 install --no-cache-dir --break-system-packages flask
 
 # Create working directories
-RUN mkdir -p /data/reports /app
+RUN mkdir -p /data/reports /data/powertop_cache /app
 
 # Copy run script and web interface
 COPY run.sh /
@@ -25,8 +25,9 @@ COPY app/ /app/
 # Make run script executable
 RUN chmod a+x /run.sh
 
-# Create powertop configuration directory
-RUN mkdir -p /var/cache/powertop
+# Link powertop cache to persistent data directory
+RUN mkdir -p /data/powertop_cache && \
+    ln -sf /data/powertop_cache /var/cache/powertop
 
 # Set working directory
 WORKDIR /data

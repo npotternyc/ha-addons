@@ -157,7 +157,7 @@
                     <p><strong>Latest PowerTop Report Available</strong></p>
                     <p>Generated: {{ latest_report.timestamp }}</p>
                     <p>Size: {{ "%.1f"|format(latest_report.size / 1024) }} KB</p>
-                    <a href="/report/latest.html" class="view-button" target="_blank">View Latest Report</a>
+                    <a href="./report/latest.html" class="view-button" target="_blank">View Latest Report</a>
                 </div>
                 {% else %}
                 <div class="latest-report no-report">
@@ -179,7 +179,7 @@
                                 Generated: {{ report.timestamp }} | Size: {{ "%.1f"|format(report.size / 1024) }} KB
                             </div>
                         </div>
-                        <a href="/report/{{ report.filename }}" class="view-button" target="_blank">View</a>
+                        <a href="./report/{{ report.filename }}" class="view-button" target="_blank">View</a>
                     </div>
                     {% endfor %}
                 </div>

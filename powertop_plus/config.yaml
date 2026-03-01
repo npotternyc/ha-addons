@@ -7,6 +7,7 @@ arch:
   - amd64
   - i386
 init: false
+host_pid: true
 hassio_api: true
 hassio_role: default
 full_access: true
@@ -18,7 +19,6 @@ privileged:
   - SYS_MODULE
   - IPC_LOCK
 host_network: true
-host_pid: true
 apparmor: false
 devices:
   - /dev/mem 
@@ -28,6 +28,7 @@ devices:
   - /proc/interrupts
   - /proc/stat
   - /sys/kernel/debug
+  - /sys
 ingress: true
 ingress_port: 8080
 options:
