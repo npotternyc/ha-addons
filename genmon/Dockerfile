@@ -4,7 +4,7 @@ FROM $BUILD_FROM
 RUN apt update -y
 RUN apt upgrade -y
 RUN apt -y install sudo
-RUN apt -y install python3.11 python3.11-venv
+RUN apt -y install python3 python3-venv
 
 # Download genmon code
 RUN mkdir -p /app
@@ -24,9 +24,8 @@ RUN sed -i 's/strlist_json = False/strlist_json = True/g' /app/genmon/conf/genmq
 RUN sed -i 's/flush_interval = 0/flush_interval = 60/g' /app/genmon/conf/genmqtt.conf
 RUN sed -i 's/blacklist = Monitor,Run Time,Monitor Time,Generator Time,External Data/blacklist = Run Time,Monitor Time,Generator Time,Platform Stats,Communication Stats/g' /app/genmon/conf/genmqtt.conf
 
-# Force to use virtualenv
-RUN mkdir -p /usr/lib/python3.11
-RUN echo '' >> /usr/lib/python3.11/EXTERNALLY-MANAGED
+# Force genmonmaint.sh to use virtualenv by creating EXTERNALLY-MANAGED marker
+RUN python3 -c "import sys,os; p=f'/usr/lib/python{sys.version_info.major}.{sys.version_info.minor}'; os.makedirs(p,exist_ok=True); open(f'{p}/EXTERNALLY-MANAGED','a').close()"
 
 # Install Genmon requirements
 RUN cd /app/genmon && ./genmonmaint.sh -i -n -s

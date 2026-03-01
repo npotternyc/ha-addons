@@ -1,3 +1,4 @@
+mkdir -p /data/genmon/log
 if [ ! -f "/data/genmon/log/genmon.log" ]; then
   touch /data/genmon/log/genmon.log
 fi
