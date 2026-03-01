@@ -8,7 +8,7 @@ RUN apt -y install python3 python3-venv
 
 # Download genmon code
 RUN mkdir -p /app
-RUN curl -L --no-progress-meter https://github.com/jgyates/genmon/archive/refs/tags/V1.19.07.tar.gz | tar xz -C /app && mv /app/genmon* /app/genmon
+RUN curl -L --no-progress-meter https://github.com/jgyates/genmon/archive/refs/tags/V1.19.08.tar.gz | tar xz -C /app && mv /app/genmon* /app/genmon
 RUN chmod 775 /app/genmon/startgenmon.sh && chmod 775 /app/genmon/genmonmaint.sh
 
 # Update the genmon.conf file to write logs to persistent storage
