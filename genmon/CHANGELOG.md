@@ -2,6 +2,13 @@
 
 All notable changes to this addon will be documented in this file.
 
+## [0.2.0] - 2026-07-15
+
+### Changed
+
+- Updated Genmon to version 2.0.01
+- Removed unused OpenContainer image labels from the Dockerfile; documented the Genmon upstream source in a comment instead
+
 ## [0.1.2] - 2026-03-01
 
 ### Changed
