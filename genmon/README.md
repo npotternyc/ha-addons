@@ -36,14 +36,21 @@ This addon packages [Genmon](https://github.com/jgyates/genmon) for easy install
 
 The addon comes pre-configured for common setups:
 
-| Setting | Value |
-|---------|-------|
-| Serial TCP Mode | Enabled (for ESP32/WiFi serial bridges) |
-| TCP Port | 6638 |
-| Logs | `/data/genmon/log/` |
-| MQTT JSON format | Enabled |
-| MQTT flush interval | 60 seconds |
-| Web Interface | Ingress on port 8000 |
+| Setting             | Value                                   |
+| ------------------- | --------------------------------------- |
+| Serial TCP Mode     | Enabled (for ESP32/WiFi serial bridges) |
+| TCP Port            | 6638                                    |
+| Logs                | `/data/genmon/log/`                     |
+| MQTT JSON format    | Enabled                                 |
+| MQTT flush interval | 60 seconds                              |
+| Web Interface       | Ingress on port 8000                    |
+
+## Ingress Notes
+
+The web UI is served through Home Assistant ingress. Genmon's own authentication
+features — login, multi-factor auth, passkeys, backup codes, and TLS certificate
+management — are **not functional (and unnecessary) behind ingress**, since Home
+Assistant handles access control.
 
 ## Automated Builds
 
@@ -56,8 +63,8 @@ Builds are produced for `aarch64`, `amd64`, and `armv7` architectures and pushed
 
 ## Version
 
-- **Addon Version**: 0.1.2
-- **Genmon Version**: 1.19.08
+- **Addon Version**: 0.2.0
+- **Genmon Version**: 2.0.01
 
 ## Support and Resources
 

@@ -1,6 +1,6 @@
 name: "Genmon"
 description: "Genmon generator monitoring app"
-version: "0.1.2"
+version: "0.2.0"
 slug: "genmon"
 panel_icon: "mdi:generator-stationary"
 init: false
