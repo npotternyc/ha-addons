@@ -7,6 +7,10 @@ All notable changes to this addon will be documented in this file.
 ### Changed
 
 - Updated Genmon to version 2.0.01
+- Relaxed Genmon's `X-Frame-Options` and CSP `frame-ancestors` headers to `SAMEORIGIN`/`'self'` so the web UI loads in the Home Assistant ingress panel
+- Made the web UI's AJAX base URL and config-restore upload endpoint relative so they resolve against the ingress path prefix
+- Documented in the README that Genmon's own auth/MFA/passkey/certificate features are unused behind ingress
+- Guarded all Dockerfile `sed` patches to fail the build if a pattern no longer matches upstream
 - Removed unused OpenContainer image labels from the Dockerfile; documented the Genmon upstream source in a comment instead
 
 ## [0.1.2] - 2026-03-01
