@@ -1,0 +1,25 @@
+name: "TLP Power Savings"
+version: "1.0.1"
+slug: tlp_powersavings
+description: "Run TLP to apply advanced power saving settings"
+url: https://github.com/npotternyc/ha-addons/tree/main/tlp_powersavings
+arch:
+  - aarch64
+  - amd64
+init: false
+startup: application
+boot: auto
+privileged:
+  - SYS_ADMIN
+  - SYS_RAWIO
+apparmor: false
+options:
+  tlp_config: []
+  log_level: info
+  profile: balanced
+  reapply_interval: 300
+schema:
+  tlp_config: ["str"]
+  log_level: list(trace|debug|info|warning|error)
+  profile: list(performance|balanced|power-saver)
+  reapply_interval: int(60,86400)
