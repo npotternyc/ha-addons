@@ -5,16 +5,16 @@
    "ghcr.io/devcontainers/features/node:2.1.0": {},
     "ghcr.io/anthropics/devcontainer-features/claude-code:1.0": {}
   },
-  "forwardPorts": [8123],
+  "forwardPorts": [80],
   "portsAttributes": {
-    "8123": {
+    "80": {
       "label": "Home Assistant",
       "onAutoForward": "openBrowser"
     }
   },
   "overrideCommand": false,
   "remoteUser": "vscode",
-  "appPort": ["7123:8123", "7357:4357"],
+  "appPort": ["7123:80", "7357:4357"],
   "postStartCommand": "bash devcontainer_bootstrap",
   "runArgs": ["-e", "GIT_EDITOR=code --wait", "--privileged"],
   "workspaceFolder": "/mnt/supervisor/apps/local/${localWorkspaceFolderBasename}",
